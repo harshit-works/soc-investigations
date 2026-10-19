@@ -18,18 +18,16 @@ and found <what made it malicious, in one sentence>, so I classified it as a
 | Event ID | 82 |
 | Severity | Medium |
 | Type | Exchange (email) |
-| Alert time | <time from the alert details> |
-| Sender | <defanged address> |
-| Recipient | <user> |
-| Subject | <subject line> |
-| Delivery status | Blocked / not delivered |
+| Alert time | 2021-03-21T12:26:57+03:00 |
+| Sender | aaronluo@cmail.carleton.ca |
+| Recipient | mark@letsdefend.io |
+| Delivery status | Blocked |
 
 ## Investigation
-1. **Alert review:** <what the alert showed, sender, recipient, attachment>
-2. **Delivery check:** <how I confirmed the mail was or wasn't delivered>
-3. **Attachment analysis:** <the ZIP and what it contained>
-4. **Reputation check:** <hash lookups: results for the ZIP and for the file inside>
-5. **Behaviour check:** <what the file tries to do, and why "Task Scheduler" matters>
+1. **Alert review:** the alert showed Phishing Mail Detected 
+2. **Delivery check:** Device Action status was blocked 
+3. **Attachment analysis:** 72c812cf21909a48eb9cceb9e04b865d
+4. **Reputation check:** No security vendors flagged this file as malicious
 
 ## Evidence
 ![Alert details](01-alert-details.png)
@@ -38,45 +36,15 @@ and found <what made it malicious, in one sentence>, so I classified it as a
 ![Attachment analysis](02-attachment-analysis.png)
 *<what this shows>*
 
-## Indicators of compromise
-| Type | Value |
-|---|---|
-| Sender address | <defanged, e.g. name[@]domain[.]com> |
-| Sender IP | <defanged> |
-| ZIP file name | <name> |
-| Inner file | Material.pdf *(confirm against your evidence)* |
-| File hashes | <SHA-256 of ZIP and inner file> |
-| Reputation | <detections / total and the date you checked> |
-
-## Timeline
-| Time | Event |
-|---|---|
-| <time> | Email received by the mail gateway |
-| <time> | Email blocked by the security system |
-| <time> | Alert fired |
 
 ## Why this verdict
-1. <ZIP looked clean on VirusTotal (0 detections), but the file inside was flagged>
-2. <the inner file behaves like or pretends to be something it isn't>
-3. <task-scheduler behaviour is a persistence technique>
+1. ZIP looked clean on VirusTotal (0 detections), but the file inside was flagged>
+2. the inner file behaves like or pretends to be something it isn't
 
 ## Why the clean ZIP score mattered
-<One or two sentences in your own words: the outer ZIP had no detections, but
-the file bundled inside it did. Checking only the container would have missed it.>
+The email was blocked by the security system. The attached ZIP had 0 VirusTotal detections, but its bundled file Material.pdf was flagged by 30/61 vendors. The associated domain a.pomf.cat was flagged by 9/92 vendors. These findings indicate potentially malicious content.
 
-## Recommendations
-- <block the sender and sender domain at the mail gateway>
-- <search other mailboxes for the same sender, subject or file hash>
-- <confirm no copy was delivered or opened anywhere>
-- <add the file hashes to blocklists or detection rules>
-- <remind users how to report suspicious attachments>
-
-## MITRE ATT&CK
-- <T1566.001 Phishing: Spearphishing Attachment>
-- <T1053.005 Scheduled Task (persistence), if your evidence supports it>
 
 ## What I learned
-<one or two sentences in your own words>
+I learned how to investigate phishing emails by checking suspicious messages, attachments, and domains using VirusTotal. I understood that a ZIP file showing zero detections can still contain suspicious files, so related indicators must also be checked. I also learned to verify whether an email was blocked or delivered, document evidence, and classify alerts as true or false positives based on the findings.
 
-## What I'd do differently
-<one honest line>
